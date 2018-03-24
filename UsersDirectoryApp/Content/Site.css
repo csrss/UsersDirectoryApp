@@ -1,0 +1,42 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.app-header-colors{
+    background-color:steelblue; 
+    color:white;
+}
+.app-footer-colors{
+     background-color:whitesmoke;
+}
+.app-buton-default-sizes{
+    min-width:100px
+}
+.app-table-header-colors{
+    background-color: lightslategray; 
+    color: white;
+}
+.app-table-row-selected {
+    background-color: ActiveCaption;
+    cursor: default
+}
+.app-table-row-regular{
+    cursor: default
+}
+.app-table-button {
+    cursor:pointer
+}

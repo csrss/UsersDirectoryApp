@@ -1,0 +1,17 @@
+﻿<div inner-html-bind inner-html="modal_html_template_reset_db" class="hidden">
+    <div class="modal-header app-header-colors">
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="vertical-align: middle;" filter="invert(100%)">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+            </svg>
+            Dropping database
+        </h3>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to reset database?
+    </div>
+    <div class="modal-footer app-footer-colors">
+        <button class="btn btn-primary app-buton-default-sizes" ng-click="ok()">OK</button>
+        <button class="btn btn-default app-buton-default-sizes" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

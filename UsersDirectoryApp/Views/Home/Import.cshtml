@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Import database";
+}
+
+<div class="panel panel-default">
+    <form action="Upload" method="post" enctype="multipart/form-data">
+        <div class="modal-header app-header-colors">
+            <h3>
+                <svg filter="invert(100%)" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z" />
+                </svg>
+                Import database
+            </h3>
+        </div>
+        <div class="modal-body">
+            <label for="file">Select database file:</label>
+            <input type="file" name="file" id="file" accept=".csv" required />
+            <small class="form-text text-muted">Database file needs to be a csv file, containing data in the following manner:</small><br />
+            <small class="form-text text-muted">first_name,last_name,birthdate,height,club_member</small><br />
+            <small class="form-text text-muted">Donna,Dean,4/27/2010,196.9,true</small>
+        </div>
+        <div class="modal-footer app-footer-colors" style="text-align:right">
+            <input type="submit" class="btn btn-primary app-buton-default-sizes" style="margin-right:10px" value="Ok" />
+            <a href="/" class="btn btn-default app-buton-default-sizes">Cancel</a>
+        </div>
+    </form>
+</div>

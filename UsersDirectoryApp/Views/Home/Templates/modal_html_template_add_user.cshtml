@@ -1,0 +1,43 @@
+﻿<div inner-html-bind inner-html="modal_html_template_add_user" class="hidden">
+    <form>
+        <div class="modal-header app-header-colors">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="vertical-align: middle;" filter="invert(100%)">
+                    <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+                Adding new user
+            </h3>
+        </div>
+        <div class="modal-body">
+
+            <label for="firstname" class="col-2 col-form-label">First name</label>
+            <div class="col-10">
+                <input class="form-control" type="text" ng-model="user_template.firstname" id="firstname" required autofocus>
+                <small class="form-text text-muted">Required.</small>
+            </div>
+            <label for="lastname" class="col-2 col-form-label">Last name</label>
+            <div class="col-10">
+                <input class="form-control" type="text" ng-model="user_template.lastname" id="lastname" required>
+                <small class="form-text text-muted">Required.</small>
+            </div>
+            <label for="birthdate" class="col-2 col-form-label">Birthdate</label>
+            <div class="col-10">
+                <input class="form-control" type="date" ng-model="user_template.birthdate" id="birthdate">
+            </div>
+            <label for="height" class="col-2 col-form-label">Height</label>
+            <div class="col-10">
+                <input class="form-control" type="number" ng-model="user_template.height" id="height">
+            </div>
+            <label for="member" class="col-2 col-form-label"></label>
+            <div class="col-10">
+                <input class="form-check-input" type="checkbox" ng-model="user_template.member" id="member"> Club member
+            </div>
+
+        </div>
+        <div class="modal-footer app-footer-colors">
+
+            <input type="submit" value="Ok" class="btn btn-primary app-buton-default-sizes" ng-click="ok()" />
+            <button type="button" class="btn btn-default app-buton-default-sizes" id="btnCloseIt" data-dismiss="modal" ng-click="cancel()">Close</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<UsersDirectoryApp.Models.Person>
+@{
+    ViewBag.Title = "Database import result";
+}
+
+<meta http-equiv="refresh" content="1; url=/" />
+<div class="panel panel-default">
+    <div class="modal-header app-header-colors">
+        <h3>
+            <svg filter="invert(100%)" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z" />
+            </svg>
+            Database import
+        </h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            Database has been successfully imported! Click close button if your browser does not automatically redirect you.
+        </p>
+    </div>
+    <div class="modal-footer app-footer-colors" style="text-align:right">
+        <a href="/" class="btn btn-primary app-buton-default-sizes">Close</a>
+    </div>
+</div>
+

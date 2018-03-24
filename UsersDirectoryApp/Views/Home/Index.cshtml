@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Users directory";
+}
+@Scripts.Render("~/bundles/app")
+<script>
+    app.controller('ExtAuthController', ['$scope', '$http', '$modal', '$cookies', '$cookieStore', '$controller',
+            function ($scope, $http, $modal, $cookies, $cookieStore, $controller) {
+        angular.extend(this, $controller('HomeCtrl', { $scope: $scope, $http: $http, $modal: $modal, $cookies: $cookies, $cookieStore: $cookieStore }));
+        $scope.authenticated = '@Request.IsAuthenticated' === 'True';
+    }]);
+</script>
+
+<div ng-app="myApp" ng-controller="ExtAuthController" class="container">
+    <consent></consent>
+    <div class="panel panel-default">
+        <div class="modal-header app-header-colors">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="vertical-align: middle;" filter="invert(100%)">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                </svg>
+                Users directory
+            </h3>
+        </div>
+        <div class="modal-body">
+            <p ng-if="authenticated">
+                Hi there, @HttpContext.Current.User.Identity.Name. Here you can browse, edit, add or delete users data. You can as well import complete database, stored in csv file.
+                For database import, simply hit <strong>Import existing database...</strong> button, then select file, containing users data, then press <strong>Upload database</strong>
+                button. When tired of existing users collection, you can wipe them out easily, - there is a magic button, with a <strong>Delete current database</strong> name on it. A few words
+                on a search box - it acts more like a filter box combined with a search. If you type a name there, only users with a specified name will be presented in a table. If you type then
+                a user last name, it will present only a specific user, if such exists. So, it acts like a filter when less data provided, and more like a search, when you type a user name
+                and a last name altogether. There is no need to press any search button and stuff, - it updates while you type. You can edit users data by hittin' this small edit button
+                on the right, next to each user's data fields, or double click specific user.
+            </p>
+            <p ng-if="!authenticated">
+                Welcome guest. Guests can only browse data. To be able to manage data (import database, delete database, edit, add, delete users), you have to <a href="Account/Login">log in</a>.
+            </p>
+        </div>
+
+        <table width="100%">
+            <tr>
+                <td>
+                    <form name="frmModel" data-ng-submit="reloadUsers()">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" data-ng-model="searchFilter" placeholder="Search for..." class="form-control" data-ng-change="reloadUsers()">
+                        </div>
+                    </form>
+                </td>
+                <td style="text-align:right;">
+                    @RenderPage("Templates/modal_html_template_add_user.cshtml")
+                    <button ng-show="authenticated" class="btn btn-primary" ng-click="requestCreateUser(modal_html_template_add_user)">Add new user...</button>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <table class="table table-bordered">
+            <thead class="app-table-header-colors">
+                <tr>
+                    <td>
+                        #
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'FirstName'; sortReverse = !sortReverse; reloadUsers()" style="color:white">
+                            First Name
+                            <span ng-show="sortType == 'FirstName' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'FirstName' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="sortType = 'LastName'; sortReverse = !sortReverse; reloadUsers()" style="color:white">
+                            Last Name
+                            <span ng-show="sortType == 'LastName' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'LastName' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </td>
+                    <td>
+                        Birthdate
+                    </td>
+                    <td>
+                        Height
+                    </td>
+                    <td>
+                        Member
+                    </td>
+                    <td ng-show="authenticated"></td>
+                </tr>
+            </thead>
+            <tbody>
+                @RenderPage("Templates/modal_html_template_edit_user.cshtml")
+                <tr ng-repeat="user in users" ng-class="{'app-table-row-selected':$index == selectedRow, 'app-table-row-regular':$index != selectedRow}" ng-click="setClickedRow($index)" ng-dblclick="doubleClick(modal_html_template_edit_user, user)">
+                    <th scope="row" width="5%">
+                        {{$index+1}}
+                    </th>
+                    <td width="17%">
+                        <span ng-show="user.showEdit">{{user.FirstName}}</span>
+                        <input ng-show="!user.showEdit" type="text" ng-model="user.FirstName" class="form-control">
+                    </td>
+                    <td width="17%">
+                        <span ng-show="user.showEdit">{{user.LastName}}</span>
+                        <input ng-show="!user.showEdit" type="text" ng-model="user.LastName" class="form-control">
+                    </td>
+                    <td width="17%">
+                        <span ng-show="user.showEdit">{{user.Birthdate | date:'MMM d, y'}}</span>
+                        <input ng-show="!user.showEdit" type="date" ng-model="user.DateJS" class="form-control">
+                    </td>
+                    <td width="17%">
+                        <span ng-show="user.showEdit">{{user.Height}}</span>
+                        <input ng-show="!user.showEdit" type="number" ng-model="user.Height" class="form-control">
+                    </td>
+                    <td width="17%">
+                        <span ng-show="user.showEdit">{{user.Member}}</span>
+                        <input type="checkbox" name="member" value="" class="form-control" ng-show="!user.showEdit" ng-model="user.Member" style="width:15px; height: 15px">
+                    </td>
+
+                    <!-- Opcje edycji userów pokazujemy jak user jest zalogowany -->
+                    <td width="5%" ng-show="authenticated">
+                        <span ng-show="user.showEdit" ng-click="toggleEdit(user)" class="glyphicon glyphicon-edit app-table-button" title="edit user"></span>
+                        <span ng-show="!user.showEdit" ng-click="updateUser(user)" class="glyphicon glyphicon-ok app-table-button" title="save user data"></span>
+                        <span ng-show="!user.showEdit" ng-click="toggleEdit(user)" class="glyphicon glyphicon-remove app-table-button" title="cancel user edition"></span>
+
+                        <!-- Deleting a single user from database-->
+                        @RenderPage("Templates/modal_html_template_delete_user.cshtml")
+                        <span ng-show="user.showEdit" ng-click="requestDeleteUser(modal_html_template_delete_user, user)" class="glyphicon glyphicon-remove app-table-button" title="remove user"></span>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    <div>
+        <label>Items per page:</label>
+        <select ng-model="numPerPage" ng-change="perPageChanged()" ng-options="opt for opt in numPerPageOptions"></select>
+    </div>
+    <div style="text-align:center">
+        <pagination ng-model="currentPage" total-items="totalItems" items-per-page="numPerPage" ng-change="reloadUsers()">
+            @* ng-model $ - Current page number. First page is 1. *@
+            @* total-items $ - Total number of items in all pages. *@
+            @* items-per-page $ C (Default: 10) - Maximum number of items per page. A value less than one indicates all items on one page. *@
+        </pagination>
+    </div>
+    <!-- Opcje importu bazy danych oraz kasowania pokazujemy tylko jak user jest zalogowany -->
+    <table ng-show="authenticated" style="text-align:center">
+        <tr>
+            <td>
+                <a href="/Home/Import" class="btn btn-default">Import existing database...</a>
+            </td>
+            <td style="padding-left:10px">
+                @RenderPage("Templates/modal_html_template_reset_db.cshtml")
+                <button class="btn btn-danger" ng-click="requestResetDatabase(modal_html_template_reset_db)">Delete current database</button>
+            </td>
+        </tr>
+    </table>
+
+</div>

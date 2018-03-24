@@ -1,0 +1,1 @@
+﻿To run, simply hit F5. Application uses localDB as database engine.
